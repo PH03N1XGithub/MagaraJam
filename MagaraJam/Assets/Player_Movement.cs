@@ -7,7 +7,9 @@ public class Player_Movement : MonoBehaviour
     private Transform myTransform;
     [SerializeField] private float mainSpeed;
 
-    public Vector3 change;      //animations kullanýyor
+    private Vector3 change;
+
+    
 
 
 
@@ -16,12 +18,18 @@ public class Player_Movement : MonoBehaviour
         myTransform = GetComponent<Transform>();
     }
 
-    void FixedUpdate()
+    private void Update()
     {
         change = Vector3.zero;
         change.x = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
 
+        
+    }
+
+    void FixedUpdate()
+    {
+        
         if (change != Vector3.zero)
         {
             Move();
