@@ -11,15 +11,17 @@ public class DialogueManager : MonoBehaviour
 
     private int currentLine = 0;
     private bool isTyping = false;
+    bool isShowing = false;
 
-    void Start()
-    {
-        StartCoroutine(TypeDialogue());
-    }
 
     void Update()
     {
-        // Skip the typing animation if the player presses a button
+
+        if (Input.GetKeyDown(KeyCode.E) && isShowing)
+            StartD();
+
+        if (isShowing == false)
+            return;
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (isTyping)
@@ -30,7 +32,7 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                // Move to the next line when the player presses space
+                // Move to the next line
                 currentLine++;
                 if (currentLine < dialogueLines.Length)
                 {
@@ -38,8 +40,9 @@ public class DialogueManager : MonoBehaviour
                 }
                 else
                 {
-                    // End of dialogue
+                    // End dialogue
                     Debug.Log("End of dialogue");
+                    end();
                 }
             }
         }
@@ -48,14 +51,51 @@ public class DialogueManager : MonoBehaviour
     IEnumerator TypeDialogue()
     {
         isTyping = true;
-        dialogueText.text = "";
+        if(dialogueText != null)
+            dialogueText.gameObject.SetActive(true);
 
-        foreach (char letter in dialogueLines[currentLine].ToCharArray())
+        if (currentLine < dialogueLines.Length && dialogueText != null)
         {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            dialogueText.text = "";
+
+            foreach (char letter in dialogueLines[currentLine].ToCharArray())
+            {
+                dialogueText.text += letter;
+                yield return new WaitForSeconds(typingSpeed);
+            }
         }
 
         isTyping = false;
     }
+
+    void end()
+    {
+        if (dialogueText == null)
+            return;
+        dialogueText.gameObject.SetActive(false);
+        currentLine = 0;
+    }
+
+    void StartD()
+    {
+        if (isTyping == true)
+            return;
+        StartCoroutine(TypeDialogue());
+    }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.Log("Enter");
+        if (collision.transform.tag == "NPC")
+            isShowing = true;  
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.Log("Exit");
+        if (collision.transform.tag == "NPC")
+            isShowing = false;
+    }
+
 }
