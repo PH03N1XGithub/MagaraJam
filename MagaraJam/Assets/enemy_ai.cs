@@ -13,6 +13,9 @@ public class enemy_ai : MonoBehaviour
 
     private float enemy_attacking_cooldown = 3f;
     private float enemy_lastAttacked = -9999f;
+
+    
+
     
     
 
@@ -38,28 +41,45 @@ public class enemy_ai : MonoBehaviour
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, playerPos.position, enemy_speed * Time.deltaTime);
     }
 
-    
-  
-        
-    
+    IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(2);
+
+        if (GameObject.Find("player").GetComponent<Player_Movement>().player_canget_hit && Time.time > enemy_lastAttacked + enemy_attacking_cooldown)
+        {
+
+            GameObject.Find("player").GetComponent<player_stats>().player_health -= 20f;
+
+            enemy_lastAttacked = Time.time;
+        }
+        Debug.Log("enume");
+
+    }
+
+
+
     void EnemyAttack()
     {
-        if (enemy_range_open)
+         if (enemy_range_open)
         {
             enemy_range.SetActive(true);
+               StartCoroutine( Attack());
+                Debug.Log("ififififi");
 
-            if (GameObject.Find("player").GetComponent<Player_Movement>().player_canget_hit && Time.time > enemy_lastAttacked + enemy_attacking_cooldown)
-            {
-                GameObject.Find("player").GetComponent<player_stats>().player_health -= 20f;
-                Debug.Log("oyuncu vuruldu -20 can");
-                enemy_lastAttacked = Time.time;
-            }
+           
 
-        }
+        } 
+
+
     }
 
 
     
+
+
+
+
+
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -88,4 +108,7 @@ public class enemy_ai : MonoBehaviour
             enemy_range_open=false;
         }
     }
+
+
+   
 }

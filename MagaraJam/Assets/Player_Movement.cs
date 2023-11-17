@@ -6,10 +6,16 @@ public class Player_Movement : MonoBehaviour
 {
     private Transform myTransform;
     [SerializeField] private float mainSpeed;
-
+    
     private Vector3 change;
 
     public bool player_canget_hit = false;
+
+    
+
+    
+
+    
 
 
 
@@ -41,7 +47,7 @@ public class Player_Movement : MonoBehaviour
 
     void Move()
     {
-        float new_speed = 4.5f;
+        float new_speed = 10.5f;
         if (change.x != 0 && change.y != 0)
         {
             myTransform.Translate(change.x * new_speed * Time.deltaTime, change.y * new_speed * Time.deltaTime, 0);
@@ -51,6 +57,8 @@ public class Player_Movement : MonoBehaviour
             myTransform.Translate(change.x * mainSpeed * Time.deltaTime, change.y * mainSpeed * Time.deltaTime, 0);
         }
     }
+
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 593201131671902455, guid: d5a94c278e55d0e4c9b74a5ec020f4dd, type: 3}
-  instantiate_cooldown: 4
+  instantiate_cooldown: 8
 --- !u!4 &18852555
 Transform:
   m_ObjectHideFlags: 0
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 1214521236}
   m_Layer: 0
   m_Name: enemy_detection_range
-  m_TagString: Player
+  m_TagString: player_range
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -373,9 +373,11 @@ GameObject:
   - component: {fileID: 1416269543}
   - component: {fileID: 1416269547}
   - component: {fileID: 1416269548}
+  - component: {fileID: 1416269550}
+  - component: {fileID: 1416269549}
   m_Layer: 0
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -420,6 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSpeed: 15
+  player_canget_hit: 0
 --- !u!212 &1416269545
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -521,6 +524,54 @@ MonoBehaviour:
   bullet_count: 11
   max_bullet_count: 11
   shooting_cooldown: 0.2
+--- !u!58 &1416269549
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416269542}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 4.328992
+--- !u!114 &1416269550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416269542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf9feabeff8fb84a94c7d7e3e89d399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player_health: 100
 --- !u!1 &1795748604
 GameObject:
   m_ObjectHideFlags: 0
