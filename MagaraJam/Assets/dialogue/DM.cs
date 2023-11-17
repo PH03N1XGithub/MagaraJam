@@ -7,12 +7,13 @@ using UnityEngine.UI;
 public class DM : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
+    public GameObject Panel;
     public string[] dialogueLines;
     public float typingSpeed = 0.05f;
 
     private int currentLine = 0;
     private bool isTyping = false;
-    //public bool isEnd;
+    private bool hasStarted = false;
 
     public NPC npc;
 
@@ -70,7 +71,10 @@ public class DM : MonoBehaviour
 
     public void StartDialogue(string[] lines)
     {
-        dialogueText.gameObject.SetActive(true);
+        if (hasStarted)
+            return;
+        hasStarted = true;
+        Panel.gameObject.SetActive(true);
         dialogueLines = lines;
         currentLine = 0;
         StartCoroutine(TypeDialogue());
@@ -81,11 +85,9 @@ public class DM : MonoBehaviour
     {
         if (dialogueText == null)
             return;
-        dialogueText.gameObject.SetActive(false);
+        Panel.gameObject.SetActive(false);
         currentLine = 0;
-        //isEnd = true;
-        //npc.isEnd = true;
-        
+        hasStarted = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)

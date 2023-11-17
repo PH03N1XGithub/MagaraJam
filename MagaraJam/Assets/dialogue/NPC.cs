@@ -8,13 +8,14 @@ public class NPC : MonoBehaviour
     public DM dialogueManager;
 
     private bool playerInRange = false;
+    public bool canAbleToTalk = true;
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            // Display a prompt or handle UI feedback if needed.
+            
         }
     }
 
@@ -23,7 +24,7 @@ public class NPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            // Hide the prompt or UI feedback if needed.
+            
         }
     }
 
@@ -31,22 +32,23 @@ public class NPC : MonoBehaviour
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            // Start the dialogue when the player presses 'E'.
             StartDialogue();
         }
     }
 
     void StartDialogue()
     {
-        // Ensure the dialogue manager is assigned.
+        if (!canAbleToTalk)
+            return;
         if (dialogueManager != null)
         {
-            // Start the dialogue with the NPC's specific lines.
+            
             dialogueManager.StartDialogue(npcDialogueLines);
         }
         else
         {
             Debug.LogWarning("Dialogue manager not assigned to NPC: " + gameObject.name);
         }
+        canAbleToTalk=false;
     }
 }
