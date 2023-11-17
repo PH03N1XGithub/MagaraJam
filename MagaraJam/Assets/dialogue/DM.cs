@@ -14,6 +14,7 @@ public class DM : MonoBehaviour
     private int currentLine = 0;
     private bool isTyping = false;
     private bool hasStarted = false;
+    //yeni
 
     public NPC npc;
 
