@@ -1,9 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour
+public class DM : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
     public string[] dialogueLines;
@@ -11,21 +12,19 @@ public class DialogueManager : MonoBehaviour
 
     private int currentLine = 0;
     private bool isTyping = false;
-    bool isShowing = false;
-    bool ondialouge = false;
+    //public bool isEnd;
 
+    public NPC npc;
+
+    void Start()
+    {
+        StartCoroutine(TypeDialogue());
+    }
 
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.E) && isShowing)
-            StartD();
-
-        if (isShowing == false)
-            return;
-        if (ondialouge == false)
-            return;
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
+        
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (isTyping)
             {
@@ -43,9 +42,9 @@ public class DialogueManager : MonoBehaviour
                 }
                 else
                 {
-                   
+                    
                     Debug.Log("End of dialogue");
-                    end();
+                    End();
                 }
             }
         }
@@ -54,8 +53,6 @@ public class DialogueManager : MonoBehaviour
     IEnumerator TypeDialogue()
     {
         isTyping = true;
-        if(dialogueText != null)
-            dialogueText.gameObject.SetActive(true);
 
         if (currentLine < dialogueLines.Length && dialogueText != null)
         {
@@ -71,36 +68,32 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
     }
 
-    void end()
+    public void StartDialogue(string[] lines)
+    {
+        dialogueText.gameObject.SetActive(true);
+        dialogueLines = lines;
+        currentLine = 0;
+        StartCoroutine(TypeDialogue());
+        
+    }
+
+    void End()
     {
         if (dialogueText == null)
             return;
         dialogueText.gameObject.SetActive(false);
         currentLine = 0;
-        ondialouge = false;
+        //isEnd = true;
+        //npc.isEnd = true;
+        
     }
 
-    void StartD()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (isTyping == true)
-            return;
-        StartCoroutine(TypeDialogue());
-        ondialouge = true;
+        if (other.CompareTag("NPC"))
+        {
+            npc = other.GetComponent<NPC>();
+
+        }
     }
-
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        Debug.Log("Enter");
-        if (collision.transform.tag == "NPC")
-            isShowing = true;  
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        Debug.Log("Exit");
-        if (collision.transform.tag == "NPC")
-            isShowing = false;
-    }
-
 }
