@@ -6,8 +6,14 @@ public class enemy_ai : MonoBehaviour
 {
     private float enemy_speed = 3f;
     public Transform playerPos;
+    public GameObject enemy_range;
 
     public float enemy_health;
+    bool enemy_range_open = false;
+
+    private float enemy_attacking_cooldown = 3f;
+    private float enemy_lastAttacked = -9999f;
+    
     
 
     private void Start()
@@ -23,7 +29,7 @@ public class enemy_ai : MonoBehaviour
             Destroy(gameObject);
         }
 
-        
+        EnemyAttack();
     }
 
 
@@ -33,6 +39,26 @@ public class enemy_ai : MonoBehaviour
     }
 
     
+  
+        
+    
+    void EnemyAttack()
+    {
+        if (enemy_range_open)
+        {
+            enemy_range.SetActive(true);
+
+            if (GameObject.Find("player").GetComponent<Player_Movement>().player_canget_hit && Time.time > enemy_lastAttacked + enemy_attacking_cooldown)
+            {
+                GameObject.Find("player").GetComponent<player_stats>().player_health -= 20f;
+                Debug.Log("oyuncu vuruldu -20 can");
+                enemy_lastAttacked = Time.time;
+            }
+
+        }
+    }
+
+
     
 
 
@@ -41,21 +67,25 @@ public class enemy_ai : MonoBehaviour
         if(collision.tag == "bullet")
         {
             enemy_health -= 20f;
-            Debug.Log("vurulduk -20 can");
+            Debug.Log("enemy vuruldu -20 can");
         }
 
-        if(collision.tag == "Player")
+        if(collision.tag == "player_range")
         {
             enemy_speed = 0f;
-            Debug.Log("durduk");
+            //enemy_range.SetActive(true);
+            enemy_range_open=true;
+            Debug.Log("range açýk");
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if(collision.tag == "player_range")
         {
             enemy_speed = 3f;
+            enemy_range.SetActive(false);
+            enemy_range_open=false;
         }
     }
 }

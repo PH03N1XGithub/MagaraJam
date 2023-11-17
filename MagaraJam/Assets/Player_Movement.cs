@@ -9,7 +9,7 @@ public class Player_Movement : MonoBehaviour
 
     private Vector3 change;
 
-    
+    public bool player_canget_hit = false;
 
 
 
@@ -50,8 +50,21 @@ public class Player_Movement : MonoBehaviour
         {
             myTransform.Translate(change.x * mainSpeed * Time.deltaTime, change.y * mainSpeed * Time.deltaTime, 0);
         }
+    }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "enemy_attack")
+        {
+            player_canget_hit=true;
+        }
+    }
 
-
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.tag == "enemy_attack")
+        {
+            player_canget_hit = false;
+        }
     }
 }
