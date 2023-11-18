@@ -4,10 +4,19 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - enemy
-  - bullet
-  - player_range
-  - enemy_attack
+  - Enemy
+  - Weapon
+  - GunBody
+  - GunSight
+  - GunBarrel
+  - GunMuzzle
+  - GunClip
+  - GunProjectile
+  - Wall
+  - GunStock
+  - SmokeTrail
+  - Spawner
+  - GunFlash
   layers:
   - Default
   - TransparentFX
@@ -17,7 +26,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Enemy
   - 
   - 
   - 
