@@ -4,7 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - NPC
+  - enemy
+  - bullet
+  - player_range
+  - enemy_attack
   layers:
   - Default
   - TransparentFX
