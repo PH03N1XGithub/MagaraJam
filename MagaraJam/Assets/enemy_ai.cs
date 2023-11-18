@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class enemy_ai : MonoBehaviour
 {
-    private float enemy_speed = 3f;
+    public float enemy_speed = 10f;
     public Transform playerPos;
     public GameObject enemy_range;
 
@@ -103,7 +103,7 @@ public class enemy_ai : MonoBehaviour
     {
         if(collision.tag == "player_range")
         {
-            enemy_speed = 3f;
+            enemy_speed = 10f;
             enemy_range.SetActive(false);
             enemy_range_open=false;
         }

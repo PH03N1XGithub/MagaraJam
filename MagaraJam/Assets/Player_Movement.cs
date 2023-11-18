@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
@@ -11,12 +12,14 @@ public class Player_Movement : MonoBehaviour
 
     public bool player_canget_hit = false;
 
-    
 
-    
+    private SpriteRenderer spriteRenderer;
 
-    
-
+    public float dashDistance = 5f;
+    public float dashTime = 0.5f;
+    private bool isDashing = false;
+    public GameObject trail;
+    [SerializeField]float elapsedTime = 0.25f;
 
 
     void Awake()
@@ -30,7 +33,19 @@ public class Player_Movement : MonoBehaviour
         change.x = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
 
-        
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
+        {
+            // Get the input direction
+            Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+            // Check if there is any input before dashing
+            if (inputDirection != Vector2.zero)
+            {
+                StartCoroutine(Dash(inputDirection));
+            }
+        }
+
     }
 
     void FixedUpdate()
@@ -74,5 +89,30 @@ public class Player_Movement : MonoBehaviour
         {
             player_canget_hit = false;
         }
+    }
+
+
+    IEnumerator Dash(Vector2 direction)
+    {
+        isDashing = true;
+        trail.gameObject.SetActive(true);
+
+        Vector3 startPos = transform.position;
+
+       
+        Vector3 endPos = startPos + new Vector3(direction.x, direction.y, 0f) * dashDistance;
+
+        
+        while (elapsedTime < dashTime)
+        {
+            
+            transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / dashTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        elapsedTime = 0.25f;
+        transform.position = endPos;
+        trail.gameObject.SetActive(false);
+        isDashing = false;
     }
 }
