@@ -21,6 +21,11 @@ public class Player_Movement : MonoBehaviour
     public GameObject trail;
     [SerializeField]float elapsedTime = 0.25f;
 
+    public float pushForce = 10f;
+    public float pushRadius = 5f;
+    public float pushDuration = 2f;
+    public LayerMask enemyLayer;
+
 
     void Awake()
     {
@@ -36,14 +41,19 @@ public class Player_Movement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
         {
-            // Get the input direction
+            
             Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
-            // Check if there is any input before dashing
+            
             if (inputDirection != Vector2.zero)
             {
                 StartCoroutine(Dash(inputDirection));
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            EMP();
         }
 
     }
@@ -113,6 +123,47 @@ public class Player_Movement : MonoBehaviour
         elapsedTime = 0.25f;
         transform.position = endPos;
         trail.gameObject.SetActive(false);
+        
         isDashing = false;
     }
+
+
+    void EMP()
+    {
+        
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pushRadius, enemyLayer);
+
+       
+        foreach (Collider2D collider in colliders)
+        {
+            Rigidbody2D enemyRigidbody = collider.GetComponent<Rigidbody2D>();
+
+            if (enemyRigidbody != null)
+            {
+               
+                Vector2 pushDirection = (collider.transform.position - transform.position).normalized;
+
+                
+                enemyRigidbody.AddForce(pushDirection * pushForce, ForceMode2D.Impulse);
+
+                
+                StartCoroutine(StopForceAfterDuration(enemyRigidbody, pushDuration));
+            }
+        }
+    }
+    IEnumerator StopForceAfterDuration(Rigidbody2D enemyRigidbody, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        
+        enemyRigidbody.velocity = Vector2.zero;
+    }
+
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, pushRadius);
+    }
+
 }
