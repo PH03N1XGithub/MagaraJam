@@ -6,6 +6,8 @@ public class rotate_enemy_range : MonoBehaviour
 {
     public Rigidbody2D rb;
     private Camera cam;
+    private bool canRotate = true;
+    public bool canRotateRef = true;
 
     Vector2 playerPos;
 
@@ -15,13 +17,28 @@ public class rotate_enemy_range : MonoBehaviour
     }
     private void Update()
     {
+        //canRotate = canRotateRef;
         playerPos = GameObject.Find("player").GetComponent<Transform>().position;
+
+        //rotate(true);
     }
 
     private void FixedUpdate()
     {
+
         Vector2 lookDir = playerPos - rb.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = angle;
+
+
+    }
+
+    public void rotate(bool canRotate)
+    {
+        if (canRotate)
+        {
+            Debug.Log("rotatering");
+            
+        }
     }
 }

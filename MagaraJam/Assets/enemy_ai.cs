@@ -10,6 +10,7 @@ public class enemy_ai : MonoBehaviour
 
     public float enemy_health;
     bool enemy_range_open = false;
+    public rotate_enemy_range RangeRef;
 
     private float enemy_attacking_cooldown = 3f;
     private float enemy_lastAttacked = -9999f;
@@ -64,7 +65,6 @@ public class enemy_ai : MonoBehaviour
             enemy_lastAttacked = Time.time;
         }
         Debug.Log("enume");
-
     }
 
 
@@ -103,9 +103,7 @@ public class enemy_ai : MonoBehaviour
 
         if(collision.tag == "player_range")
         {
-            //enemy_speed = 0f;
             canMove = false;
-            //enemy_range.SetActive(true);
             enemy_range_open=true;
             Debug.Log("range açýk");
         }
@@ -115,7 +113,6 @@ public class enemy_ai : MonoBehaviour
     {
         if(collision.tag == "player_range")
         {
-            //enemy_speed = 10f;
             canMove = true;
             StartCoroutine(timer());
             

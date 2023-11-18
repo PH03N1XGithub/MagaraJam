@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3962059329335769744}
   - component: {fileID: 8322740848411122299}
   - component: {fileID: 7311796709318020699}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: enemy
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -172,9 +172,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddbf8d00edf5db45a8976ef353c0a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy_speed: 10
   playerPos: {fileID: 0}
   enemy_range: {fileID: 1905816644008604378}
   enemy_health: 100
+  RangeRef: {fileID: 2667609935432355148}
 --- !u!1 &1905816644008604378
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +190,7 @@ GameObject:
   - component: {fileID: 6416309232146223800}
   - component: {fileID: 2667609935432355148}
   - component: {fileID: 6022228642133492033}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: enemy_range
   m_TagString: enemy_attack
   m_Icon: {fileID: 0}
@@ -204,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 1905816644008604378}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.418, z: 0}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
   m_LocalScale: {x: 1.768024, y: 1.3102463, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -320,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 6022228642133492033}
+  canRotateRef: 1
 --- !u!50 &6022228642133492033
 Rigidbody2D:
   serializedVersion: 4
