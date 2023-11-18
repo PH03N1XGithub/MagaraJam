@@ -14,10 +14,11 @@ public class enemy_ai : MonoBehaviour
     private float enemy_attacking_cooldown = 3f;
     private float enemy_lastAttacked = -9999f;
 
-    
+    bool canMove = true;
 
-    
-    
+
+
+
 
     private void Start()
     {
@@ -26,7 +27,8 @@ public class enemy_ai : MonoBehaviour
     }
     private void Update()
     {
-        EnemyMovement();
+        if (canMove) 
+            EnemyMovement();
         if(enemy_health <= 0)
         {
             Destroy(gameObject);
@@ -43,6 +45,15 @@ public class enemy_ai : MonoBehaviour
 
     IEnumerator Attack()
     {
+        canMove = false;
+        Vector3 lastPos = new Vector3(
+                 enemy_range.transform.eulerAngles.x,
+                 enemy_range.transform.eulerAngles.y + 180,
+                 enemy_range.transform.eulerAngles.z
+            );
+
+
+        //enemy_range.gameObject.transform.rotation.eulerAngles = lastPos;
         yield return new WaitForSeconds(2);
 
         if (GameObject.Find("player").GetComponent<Player_Movement>().player_canget_hit && Time.time > enemy_lastAttacked + enemy_attacking_cooldown)
@@ -63,7 +74,7 @@ public class enemy_ai : MonoBehaviour
          if (enemy_range_open)
         {
             enemy_range.SetActive(true);
-               StartCoroutine( Attack());
+               StartCoroutine(Attack());
                 Debug.Log("ififififi");
 
            
@@ -92,7 +103,8 @@ public class enemy_ai : MonoBehaviour
 
         if(collision.tag == "player_range")
         {
-            enemy_speed = 0f;
+            //enemy_speed = 0f;
+            canMove = false;
             //enemy_range.SetActive(true);
             enemy_range_open=true;
             Debug.Log("range açýk");
@@ -103,12 +115,21 @@ public class enemy_ai : MonoBehaviour
     {
         if(collision.tag == "player_range")
         {
-            enemy_speed = 10f;
-            enemy_range.SetActive(false);
-            enemy_range_open=false;
+            //enemy_speed = 10f;
+            canMove = true;
+            StartCoroutine(timer());
+            
         }
     }
 
 
-   
+   IEnumerator timer()
+    {
+        Debug.Log("timer estar");
+        yield return new WaitForSeconds(2);
+        Debug.Log("timer end");
+            enemy_range.SetActive(false);
+        enemy_range_open = false;
+        canMove = true;
+    }
 }
