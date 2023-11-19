@@ -13,7 +13,7 @@ public class rotate : MonoBehaviour
     {
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         rb.transform.localPosition = new Vector3(0,4,0);
-        rb.transform.localPosition = new Vector3(0, -0.3f, 0);
+        
     }
 
     private void FixedUpdate()

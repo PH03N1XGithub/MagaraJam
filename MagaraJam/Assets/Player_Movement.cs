@@ -26,6 +26,8 @@ public class Player_Movement : MonoBehaviour
     public float pushDuration = 2f;
     public LayerMask enemyLayer;
 
+    public ParticleSystem wave;
+
 
     void Awake()
     {
@@ -51,9 +53,10 @@ public class Player_Movement : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             EMP();
+            wave.Play();
         }
 
     }

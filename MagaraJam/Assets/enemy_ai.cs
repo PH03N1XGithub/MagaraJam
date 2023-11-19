@@ -17,19 +17,22 @@ public class enemy_ai : MonoBehaviour
 
     bool canMove = true;
 
-
+    public float moveSpeed = 3f;
+    private Transform player;
 
 
 
     private void Start()
     {
         playerPos = GameObject.Find("player").GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         enemy_health = 100f;
     }
     private void Update()
     {
-        if (canMove) 
-            EnemyMovement();
+        if (canMove)
+            MoveTowardsPlayer();
+            //EnemyMovement();
         if(enemy_health <= 0)
         {
             Destroy(gameObject);
@@ -43,6 +46,19 @@ public class enemy_ai : MonoBehaviour
     {
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, playerPos.position, enemy_speed * Time.deltaTime);
     }
+
+
+    void MoveTowardsPlayer()
+    {
+       
+        Vector3 directionToPlayer = player.position - transform.position;
+
+        Vector3 normalizedDirection = directionToPlayer.normalized;
+
+        transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
+    }
+
+
 
     IEnumerator Attack()
     {

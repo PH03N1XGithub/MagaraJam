@@ -6,7 +6,6 @@ public class rotate_enemy_range : MonoBehaviour
 {
     public Rigidbody2D rb;
     private Camera cam;
-    private bool canRotate = true;
     public bool canRotateRef = true;
 
     Vector2 playerPos;
@@ -19,6 +18,7 @@ public class rotate_enemy_range : MonoBehaviour
     {
         //canRotate = canRotateRef;
         playerPos = GameObject.Find("player").GetComponent<Transform>().position;
+        rb.transform.localPosition = new Vector3(0, -0.1f, 0);
 
         //rotate(true);
     }
